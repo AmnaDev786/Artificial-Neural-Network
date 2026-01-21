@@ -7,6 +7,7 @@ It includes a complete backend–frontend pipeline with trained models, preproce
 ---
 
 ## 📂 Project Structure
+```bash
 ANNProject/
 │
 ├─ backend/
@@ -35,7 +36,7 @@ ANNProject/
 │
 ├─ requirements.txt
 └─ README.md
-
+```
 
 ---
 
@@ -116,4 +117,5 @@ Decision support systems for banking
 
 This project demonstrates a deployment-ready ANN-based solution for bank term deposit prediction.
 Through systematic preprocessing, optimized neural architecture, and threshold tuning, the model achieves strong generalization and real-world applicability.
+
 
