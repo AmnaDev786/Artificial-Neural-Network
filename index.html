@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Deposit Prediction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1A365D; /* Dark blue */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #63B3ED; /* Light blue card */
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 500px;
+            color: #1A365D;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #2B6CB0;
+            font-size: 14px;
+            outline: none;
+            background-color: #90CDF4; /* lighter blue */
+            color: #1A365D;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #2B6CB0;
+            box-shadow: 0 0 5px rgba(43,108,176,0.5);
+        }
+
+        button {
+            background-color: #2B6CB0;
+            color: white;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1A365D;
+        }
+
+        #toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            animation: fadeOut 5s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bank Deposit Prediction</h1>
+        <form method="POST">
+            <label>Age</label>
+            <input name="age" placeholder="Age" required value="{{ input_data.get('age','') }}">
+            
+            <label>Balance</label>
+            <input name="balance" placeholder="Balance" required value="{{ input_data.get('balance','') }}">
+            
+            <label>Day</label>
+            <input name="day" placeholder="Day" required value="{{ input_data.get('day','') }}">
+            
+            <label>Call Duration (seconds)</label>
+            <input name="duration" placeholder="Call Duration" required value="{{ input_data.get('duration','') }}">
+            
+            <label>Campaign</label>
+            <input name="campaign" placeholder="Campaign" required value="{{ input_data.get('campaign','') }}">
+            
+            <label>Pdays</label>
+            <input name="pdays" placeholder="Pdays" required value="{{ input_data.get('pdays','') }}">
+            
+            <label>Previous</label>
+            <input name="previous" placeholder="Previous" required value="{{ input_data.get('previous','') }}">
+            
+            <label>Job</label>
+            <select name="job">
+                {% for j in ["admin.","blue-collar","entrepreneur","housemaid","management","retired","self-employed","services","student","technician","unemployed","unknown"] %}
+                <option value="{{j}}" {% if input_data.get('job')==j %}selected{% endif %}>{{j}}</option>
+                {% endfor %}
+            </select>
+
+            <label>Marital</label>
+            <select name="marital">
+                {% for m in ["married","single","divorced"] %}
+                <option value="{{m}}" {% if input_data.get('marital')==m %}selected{% endif %}>{{m}}</option>
+                {% endfor %}
+            </select>
+
+            <label>Education</label>
+            <select name="education">
+                {% for e in ["primary","secondary","tertiary","unknown"] %}
+                <option value="{{e}}" {% if input_data.get('education')==e %}selected{% endif %}>{{e}}</option>
+                {% endfor %}
+            </select>
+
+            <label>Contact</label>
+            <select name="contact">
+                {% for c in ["cellular","telephone","unknown"] %}
+                <option value="{{c}}" {% if input_data.get('contact')==c %}selected{% endif %}>{{c}}</option>
+                {% endfor %}
+            </select>
+
+            <label>Month</label>
+            <select name="month">
+                {% for mo in ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"] %}
+                <option value="{{mo}}" {% if input_data.get('month')==mo %}selected{% endif %}>{{mo}}</option>
+                {% endfor %}
+            </select>
+
+            <label>Poutcome</label>
+            <select name="poutcome">
+                {% for p in ["success","failure","other","unknown"] %}
+                <option value="{{p}}" {% if input_data.get('poutcome')==p %}selected{% endif %}>{{p}}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+
+    {% if prediction %}
+    <div id="toast" style="background-color: {% if prediction=='Deposit YES' %}#38a169{% else %}#e53e3e{% endif %}">
+        <strong>{{ prediction }}</strong><br>
+        Probability: {{ probability }}
+    </div>
+    {% endif %}
+</body>
+</html>
